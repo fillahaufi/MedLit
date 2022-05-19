@@ -1,3 +1,45 @@
 <resources>
     <string name="app_name">MedLit</string>
+    <string name="logo_with_text">logo with text</string>
+    <string name="footer_bar">footer bar</string>
+    <string name="first_welcome"><font fgcolor="#8AAE92">MedLit</font> is an application that focuses on the field of public health</string>
+    <string name="first_welcome_2">here, we help people who want information about the drugs to be taken so that unwanted things don\'t happen</string>
+    <string name="first_welcome_3">How do we do that? Let\'s take a simple walk</string>
+    <string name="homepage_view">homepage view</string>
+    <string name="menu2_head">Search and Explore medicine</string>
+    <string name="menu2_desc">After you log in, you will see list of medicine and if you got stuck looking for medicine you want, you can use the search feature above it.</string>
+    <string name="camera_view">camera view</string>
+    <string name="menu3_head">Want to know what medicine you have?</string>
+    <string name="menu3_desc">At the bottom of the screen, there will be a big circle button and if you tap it, it will redirect to camera and you can scan medicine from there</string>
+    <string name="menu4_head">Get more information.</string>
+    <string name="menu4_desc">Get more information about drugs by tapping on the button below.</string>
+    <string name="detail_view">detail view</string>
+    <string name="get_started">Get Started</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="register">Register</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="fullname">Fullname</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard"></string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_profile">Profile</string>
+    <string name="goto_camera_button">goto camera button</string>
+    <string name="welcome_back">Welcome Back,</string>
+    <string name="greet_name">Name</string>
+    <string name="search">search</string>
+    <string name="underline">underline</string>
+    <string name="background">background</string>
+    <string name="logout">Logout</string>
+    <string name="med_name">Med Name</string>
+    <string name="used_for">Used for :</string>
+    <string name="used_for_value">Used for value</string>
+    <string name="detail_image">detail image</string>
+    <string name="back">back</string>
+    <string name="bookmark">bookmark</string>
 </resources>

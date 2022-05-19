@@ -1,7 +1,8 @@
-package com.fillahaufi.medlit
+package com.fillahaufi.medlit.ui.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.fillahaufi.medlit.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
