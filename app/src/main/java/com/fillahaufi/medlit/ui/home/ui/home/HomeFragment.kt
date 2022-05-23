@@ -2,6 +2,7 @@ package com.fillahaufi.medlit.ui.home.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,15 +27,30 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         goToBookmark()
+        setName()
 
         return root
+    }
+
+    private fun setName() {
+        val data: Bundle? = arguments
+        if (data != null) {
+            val name = data.getString("name")
+            Log.d("namaaaaaa", name.toString())
+        }
+        if (this.arguments != null) {
+            Log.d("namaku", arguments?.getString("name").toString())
+            binding.textGreeting.text = this.arguments?.getString("name")
+        }
+        else {
+            Log.d("namaku", "gaada nama")
+        }
     }
 
     private fun goToBookmark() {

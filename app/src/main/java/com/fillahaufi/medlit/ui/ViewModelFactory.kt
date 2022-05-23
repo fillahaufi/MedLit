@@ -3,16 +3,21 @@ package com.fillahaufi.medlit.ui
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.fillahaufi.medlit.data.UserRepository
 import com.fillahaufi.medlit.data.local.UserPreference
 import com.fillahaufi.medlit.di.Injection
 import com.fillahaufi.medlit.ui.auth.AuthViewModel
+import com.fillahaufi.medlit.ui.home.ui.profile.ProfileViewModel
 
-class ViewModelFactory private constructor(private val pref: UserPreference): ViewModelProvider.NewInstanceFactory(){
+class ViewModelFactory private constructor(private val userRepository: UserRepository, private val pref: UserPreference): ViewModelProvider.NewInstanceFactory(){
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AuthViewModel::class.java)) {
-            return AuthViewModel(pref) as T
+            return AuthViewModel(userRepository, pref) as T
+        }
+        if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
+            return ProfileViewModel(userRepository, pref) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }
@@ -21,10 +26,10 @@ class ViewModelFactory private constructor(private val pref: UserPreference): Vi
         @Volatile
 //        private lateinit var pref: UserPreference
         private var instance: ViewModelFactory? = null
-//        fun getInstance(context: Context, pref: UserPreference): ViewModelFactory =
-//            instance ?: synchronized(this) {
-//                instance ?: ViewModelFactory(Injection.provideRepository(context), pref)
-//            }.also { instance = it }
+        fun getInstance(context: Context, pref: UserPreference): ViewModelFactory =
+            instance ?: synchronized(this) {
+                instance ?: ViewModelFactory(Injection.provideRepository(context), pref)
+            }.also { instance = it }
     }
 
 }
