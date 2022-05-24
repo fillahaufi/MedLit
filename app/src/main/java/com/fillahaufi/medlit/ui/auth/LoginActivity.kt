@@ -82,6 +82,7 @@ class LoginActivity : AppCompatActivity() {
                                     val intent = Intent(this, HomeActivity::class.java)
                                     intent.putExtra(HomeActivity.USER_TOKEN, token)
                                     intent.putExtra(HomeActivity.USER_NAME, name)
+                                    intent.putExtra(HomeActivity.USER_EMAIL, email)
                                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                                     startActivity(intent)
                                 }

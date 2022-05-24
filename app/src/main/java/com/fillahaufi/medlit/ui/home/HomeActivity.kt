@@ -14,15 +14,17 @@ import com.fillahaufi.medlit.R
 import com.fillahaufi.medlit.databinding.ActivityHomeBinding
 import com.fillahaufi.medlit.ui.home.ui.home.HomeFragment
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), IHomeFragment {
 
     private lateinit var binding: ActivityHomeBinding
     lateinit var userToken: String
     lateinit var userName: String
+    lateinit var userEmail: String
 
     companion object {
         const val USER_TOKEN = "USER_TOKEN"
         const val USER_NAME = "USER_NAME"
+        const val USER_EMAIL = "USER_EMAIL"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,10 +32,6 @@ class HomeActivity : AppCompatActivity() {
 
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        userToken = intent.getStringExtra(USER_TOKEN).toString()
-        userName = intent.getStringExtra(USER_NAME).toString()
-//        sendDataToFragment()
 
         val navView: BottomNavigationView = binding.navView
 
@@ -67,5 +65,17 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setupView() {
         supportActionBar?.hide()
+    }
+
+    override fun getHomeFragmentData(): HomeFragmentData {
+        userToken = intent.getStringExtra(USER_TOKEN).toString()
+        userName = intent.getStringExtra(USER_NAME).toString()
+        userEmail = intent.getStringExtra(USER_EMAIL).toString()
+
+        return HomeFragmentData(
+            name = userName,
+            email = userEmail,
+            token = userToken,
+        )
     }
 }

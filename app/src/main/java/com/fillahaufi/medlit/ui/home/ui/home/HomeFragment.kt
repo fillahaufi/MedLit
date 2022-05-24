@@ -1,5 +1,6 @@
 package com.fillahaufi.medlit.ui.home.ui.home
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,8 +13,22 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.fillahaufi.medlit.databinding.FragmentHomeBinding
+import com.fillahaufi.medlit.ui.home.IHomeFragment
 
 class HomeFragment : Fragment() {
+
+    private var interactionListener: IHomeFragment? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        when(context) {
+            is IHomeFragment -> {
+                interactionListener = context
+            }
+            else -> throw RuntimeException("$context has to implement IHomeFragment")
+        }
+    }
 
     private lateinit var homeViewModel: HomeViewModel
     private var _binding: FragmentHomeBinding? = null
@@ -39,17 +54,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun setName() {
-        val data: Bundle? = arguments
-        if (data != null) {
-            val name = data.getString("name")
-            Log.d("namaaaaaa", name.toString())
-        }
-        if (this.arguments != null) {
-            Log.d("namaku", arguments?.getString("name").toString())
-            binding.textGreeting.text = this.arguments?.getString("name")
-        }
-        else {
-            Log.d("namaku", "gaada nama")
+        interactionListener?.getHomeFragmentData().let {
+            binding.textGreeting.text = it?.name
         }
     }
 

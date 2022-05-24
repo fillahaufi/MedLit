@@ -15,10 +15,23 @@ import androidx.lifecycle.ViewModelProvider
 import com.fillahaufi.medlit.data.local.UserPreference
 import com.fillahaufi.medlit.databinding.FragmentProfileBinding
 import com.fillahaufi.medlit.ui.ViewModelFactory
+import com.fillahaufi.medlit.ui.home.IHomeFragment
 import com.fillahaufi.medlit.ui.welcome.WelcomeActivity
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class ProfileFragment : Fragment() {
+
+    private var interactionListener: IHomeFragment? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        when(context) {
+            is IHomeFragment -> {
+                interactionListener = context
+            }
+            else -> throw RuntimeException("$context has to implement IHomeFragment")
+        }
+    }
 
     private lateinit var viewModel: ProfileViewModel
     private var _binding: FragmentProfileBinding? = null
@@ -39,9 +52,17 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        setProfile()
         logout()
 
         return root
+    }
+
+    private fun setProfile() {
+        interactionListener?.getHomeFragmentData().let {
+            binding.fullname.text = it?.name
+            binding.email.text = it?.email
+        }
     }
 
 //    private fun setupViewModel() {
