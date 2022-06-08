@@ -42,4 +42,29 @@
     <string name="detail_image">detail image</string>
     <string name="back">back</string>
     <string name="bookmark">bookmark</string>
+
+    <string-array name="data_id">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="data_name">
+        <item>Nama obat 1</item>
+        <item>Nama obat 2</item>
+        <item>Nama obat 3</item>
+        <item>Nama obat 4</item>
+        <item>Nama obat 5</item>
+    </string-array>
+
+    <string-array name="data_img">
+        <item>https://www.jabarprov.go.id/assets/images/berita/gambar_39507.jpg</item>
+        <item>https://gdb.voanews.com/FE1DA212-19C5-4040-95FA-8BE352C1C96E_w408_r1_s.jpg</item>
+        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRMmLV3HU-35E2EAUkqN46o8Dnrb83uB40VQ&amp;usqp=CAU</item>
+        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRMmLV3HU-35E2EAUkqN46o8Dnrb83uB40VQ&amp;usqp=CAU</item>
+        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRMmLV3HU-35E2EAUkqN46o8Dnrb83uB40VQ&amp;usqp=CAU</item>
+    </string-array>
+
 </resources>

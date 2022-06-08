@@ -1,9 +1,17 @@
 package com.fillahaufi.medlit.ui.home
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.findNavController
@@ -12,6 +20,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.fillahaufi.medlit.R
 import com.fillahaufi.medlit.databinding.ActivityHomeBinding
+import com.fillahaufi.medlit.ui.camera.CameraActivity
+import com.fillahaufi.medlit.ui.camera.ScanResultActivity
 import com.fillahaufi.medlit.ui.home.ui.home.HomeFragment
 
 class HomeActivity : AppCompatActivity(), IHomeFragment {
@@ -26,6 +36,7 @@ class HomeActivity : AppCompatActivity(), IHomeFragment {
         const val USER_NAME = "USER_NAME"
         const val USER_EMAIL = "USER_EMAIL"
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +59,14 @@ class HomeActivity : AppCompatActivity(), IHomeFragment {
 
         setupView()
         setMidMenuDisabled()
+        startCameraX()
+    }
+
+    private fun startCameraX() {
+        binding.fbScan.setOnClickListener {
+            val intentToCameraX = Intent(this, ScanResultActivity::class.java)
+            startActivity(intentToCameraX)
+        }
     }
 
     private fun sendDataToFragment() {

@@ -10,7 +10,7 @@
     android:layout_marginTop="8dp"
     android:layout_marginRight="8dp"
     android:descendantFocusability="blocksDescendants"
-    android:backgroundTint="@color/green_4"
+    android:backgroundTint="@color/green_3"
     card_view:cardCornerRadius="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,30 +19,31 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/story_img"
+            android:id="@+id/medicine_img"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="125dp"
+            android:scaleType="centerCrop"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/story_name"
+            android:id="@+id/medicine_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:text="@string/fullname"
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:textColor="@color/green_1"
+            android:textSize="18sp"
+            android:textStyle="bold"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/story_img" />
+            card_view:layout_constraintTop_toBottomOf="@+id/medicine_img" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -33,8 +33,16 @@ class LoginActivity : AppCompatActivity() {
 
         setupView()
         setupViewModel()
-        logIn()
+        dummyLogIn()
+//        logIn()
         goRegister()
+    }
+
+    private fun dummyLogIn() {
+        binding.submit.setOnClickListener {
+            val intentToMain = Intent(this@LoginActivity, HomeActivity::class.java)
+            startActivity(intentToMain)
+        }
     }
 
     private fun setupViewModel() {

@@ -14,13 +14,7 @@ data class Medicine(
     @ColumnInfo(name = "name")
     var name: String?,
 
-    @ColumnInfo(name = "desc")
-    var desc: String?,
-
     @ColumnInfo(name = "photo")
     var photo: String?,
 
-    @ColumnInfo(name = "created")
-    var created: String?,
-
-) : Parcelable
+    ) : Parcelable
