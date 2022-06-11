@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -28,10 +29,10 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
+        setupView()
         setContentView(binding.root)
         showLoading(false)
 
-        setupView()
         setupViewModel()
         dummyLogIn()
 //        logIn()
@@ -116,6 +117,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupView() {
         supportActionBar?.hide()
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
     private fun showLoading(isLoading: Boolean) {
