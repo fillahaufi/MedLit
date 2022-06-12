@@ -4,17 +4,14 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
+import com.fillahaufi.medlit.data.local.Medicine
+import com.fillahaufi.medlit.data.local.room.MedDao
 import com.fillahaufi.medlit.data.remote.response.LoginResponse
 import com.fillahaufi.medlit.data.remote.response.RegisterResponse
 import com.fillahaufi.medlit.data.remote.retrofit.ApiService
 import com.fillahaufi.medlit.data.remote.retrofit.body.LoginBodyInformation
 import com.fillahaufi.medlit.data.remote.retrofit.body.SignupBodyInformation
 import com.fillahaufi.medlit.utils.AppExecutors
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,6 +19,7 @@ import retrofit2.Response
 
 class UserRepository private constructor(
     private val apiService: ApiService,
+    private val medDao: MedDao,
     private val appExecutors: AppExecutors
 ){
     private var userToken: String = "USER_TOKEN"
@@ -107,17 +105,28 @@ class UserRepository private constructor(
         return loginResult
     }
 
+    fun getBookmarkedUser(): LiveData<List<Medicine>> {
+        return medDao.getBookmarkedUsers()
+    }
+
+    fun setBookmarkedUsers(medicine: Medicine, bookmarkState: Boolean) {
+        appExecutors.diskIO.execute {
+            medicine.isBookmarked = bookmarkState
+            medDao.update(medicine)
+        }
+    }
+
     companion object {
         @Volatile
         private var instance: UserRepository? = null
         fun getInstance(
             apiService: ApiService,
-//            userDao: UserDao,
+            medDao: MedDao,
 //            userDetailDao: UserDetailDao,
             appExecutors: AppExecutors
         ): UserRepository =
             instance ?: synchronized(this) {
-                instance ?: UserRepository(apiService, appExecutors)
+                instance ?: UserRepository(apiService, medDao, appExecutors)
             }.also { instance = it }
     }
 }

@@ -42,6 +42,7 @@
     <string name="detail_image">detail image</string>
     <string name="back">back</string>
     <string name="bookmark">bookmark</string>
+    <string name="search_hint">Medicine name</string>
 
     <string-array name="data_id">
         <item>1</item>

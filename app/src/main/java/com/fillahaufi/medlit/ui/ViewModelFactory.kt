@@ -8,6 +8,8 @@ import com.fillahaufi.medlit.data.local.UserPreference
 import com.fillahaufi.medlit.di.Injection
 import com.fillahaufi.medlit.ui.auth.AuthViewModel
 import com.fillahaufi.medlit.ui.home.ui.profile.ProfileViewModel
+import com.fillahaufi.medlit.ui.others.BookmarkViewModel
+import com.fillahaufi.medlit.ui.others.SearchResultViewModel
 
 class ViewModelFactory private constructor(private val userRepository: UserRepository, private val pref: UserPreference): ViewModelProvider.NewInstanceFactory(){
 
@@ -18,6 +20,12 @@ class ViewModelFactory private constructor(private val userRepository: UserRepos
         }
         if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
             return ProfileViewModel(userRepository, pref) as T
+        }
+        if (modelClass.isAssignableFrom(BookmarkViewModel::class.java)) {
+            return BookmarkViewModel(userRepository, pref) as T
+        }
+        if (modelClass.isAssignableFrom(SearchResultViewModel::class.java)) {
+            return SearchResultViewModel(userRepository, pref) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }

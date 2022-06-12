@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +20,8 @@ import com.fillahaufi.medlit.databinding.FragmentHomeBinding
 import com.fillahaufi.medlit.ui.camera.ListMedicineAdapter
 import com.fillahaufi.medlit.ui.home.IHomeFragment
 import com.fillahaufi.medlit.ui.home.ui.detail.MedDetailActivity
+import com.fillahaufi.medlit.ui.others.BookmarkActivity
+import com.fillahaufi.medlit.ui.others.SearchResultActivity
 
 class HomeFragment : Fragment() {
 
@@ -60,8 +63,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        listDummy.removeAll(listMedicines.toSet())
         listDummy.addAll(listMedicines)
 
+        searchMed()
         goToBookmark()
         setName()
         setItemRow()
@@ -69,22 +74,29 @@ class HomeFragment : Fragment() {
 
     }
 
+    private fun searchMed() {
+        binding.goToSearch.setOnClickListener {
+            val intentToSearch = Intent(activity, SearchResultActivity::class.java)
+            startActivity(intentToSearch)
+        }
+    }
+
     private fun setItemRow() {
         binding.rvMedicine.layoutParams.height = getScreenHeight() - 700
     }
 
-    fun getScreenHeight(): Int {
+    private fun getScreenHeight(): Int {
         return Resources.getSystem().displayMetrics.heightPixels
     }
 
     private val listMedicines: ArrayList<Medicine>
         get() {
-            val dataId = resources.getStringArray(R.array.data_id)
+            val dataId = resources.getIntArray(R.array.data_id)
             val dataName = resources.getStringArray(R.array.data_name)
             val dataPhoto = resources.getStringArray(R.array.data_img)
             val listMed = ArrayList<Medicine>()
             for (i in dataName.indices) {
-                val med = Medicine(dataId[i], dataName[i], dataPhoto[i])
+                val med = Medicine(dataId[i], dataName[i], dataPhoto[i], false)
                 listMed.add(med)
             }
             return listMed
@@ -128,7 +140,8 @@ class HomeFragment : Fragment() {
 
     private fun goToBookmark() {
         binding.bookmark.setOnClickListener {
-            Toast.makeText(activity, "Fitur dalam pengembangan", Toast.LENGTH_SHORT).show()
+            val intentToBookmark = Intent(activity, BookmarkActivity::class.java)
+            startActivity(intentToBookmark)
         }
     }
 

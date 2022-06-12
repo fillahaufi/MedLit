@@ -197,7 +197,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
         android:contentDescription="@string/bookmark"
-        android:src="@drawable/ic_baseline_bookmark_24"
+        android:src="@drawable/ic_baseline_bookmark_border_24"
         app:backgroundTint="@color/green_2"
         app:fabCustomSize="60dp"
         app:layout_constraintBottom_toBottomOf="parent"

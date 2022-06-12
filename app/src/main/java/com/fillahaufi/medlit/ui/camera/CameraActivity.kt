@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
@@ -64,6 +65,13 @@ class CameraActivity : AppCompatActivity() {
         requestPermission()
         startCamera()
         binding.captureImage.setOnClickListener { takePhoto() }
+    }
+
+    override fun onBackPressed() {
+        Log.d("CDA", "onBackPressed Called")
+        val setIntent = Intent(this, HomeActivity::class.java)
+        startActivity(setIntent)
+        finishAffinity()
     }
 
     private fun setupView() {
