@@ -14,7 +14,7 @@ class ApiConfig {
                 .addInterceptor(loggingInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://34.101.99.229:8080/api/v1/")
+                .baseUrl("https://medlit-app.et.r.appspot.com/api/medlit/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

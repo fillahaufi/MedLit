@@ -1,6 +1,7 @@
 package com.fillahaufi.medlit.ui.camera
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -8,13 +9,24 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.fillahaufi.medlit.data.Result
 import com.fillahaufi.medlit.data.local.Medicine
+import com.fillahaufi.medlit.data.local.UserPreference
 import com.fillahaufi.medlit.databinding.ActivityScanResultBinding
-import com.fillahaufi.medlit.ml.MedicineModel
-import com.fillahaufi.medlit.ui.welcome.WelcomeActivity
+import com.fillahaufi.medlit.ml.MedscanModel
+import com.fillahaufi.medlit.ui.ViewModelFactory
+import com.fillahaufi.medlit.ui.home.HomeActivity
+import com.fillahaufi.medlit.ui.home.ui.detail.MedDetailActivity
+import com.fillahaufi.medlit.ui.others.SearchResultActivity
 import com.fillahaufi.medlit.utils.rotateBitmap
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.TensorImage
@@ -23,14 +35,25 @@ import java.io.File
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.text.DecimalFormat
+import java.io.Serializable
 import kotlin.math.absoluteValue
 
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class ScanResultActivity : AppCompatActivity() {
     private lateinit var binding: ActivityScanResultBinding
+    private lateinit var viewModel: ScanResultViewModel
     private lateinit var medList: List<String>
+    private lateinit var medResult: String
+
+    private lateinit var userToken: String
+    private lateinit var userName: String
+    private lateinit var userEmail: String
 
     companion object {
         const val CAMERA_X_RESULT = 200
+        const val USER_TOKEN = "USER_TOKEN"
+        const val USER_NAME = "USER_NAME"
+        const val USER_EMAIL = "USER_EMAIL"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +61,8 @@ class ScanResultActivity : AppCompatActivity() {
         binding = ActivityScanResultBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        getUserData()
+        setupViewModel()
         startCameraX()
         loadLabel()
         setupView()
@@ -45,14 +70,32 @@ class ScanResultActivity : AppCompatActivity() {
         retakeCamera()
     }
 
+    private fun getUserData() {
+        userToken = intent.getStringExtra(HomeActivity.USER_TOKEN).toString()
+        userName = intent.getStringExtra(HomeActivity.USER_NAME).toString()
+        userEmail = intent.getStringExtra(HomeActivity.USER_EMAIL).toString()
+    }
+
+    private fun setupViewModel() {
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(this, UserPreference.getInstance(dataStore))
+        val vM: ScanResultViewModel by viewModels {
+            factory
+        }
+        viewModel = vM
+    }
+
     private fun loadLabel() {
         val filename = "label.txt"
         medList = application.assets.open(filename).bufferedReader().use { it.readLines() }
+
 //        medList = inputString.split("/n")
     }
 
     private fun startCameraX() {
         val intentToCameraX = Intent(this, CameraActivity::class.java)
+        intentToCameraX.putExtra(CameraActivity.USER_TOKEN, userToken)
+        intentToCameraX.putExtra(CameraActivity.USER_NAME, userName)
+        intentToCameraX.putExtra(CameraActivity.USER_EMAIL, userEmail)
         launcherIntentCameraX.launch(intentToCameraX)
     }
 
@@ -86,10 +129,7 @@ class ScanResultActivity : AppCompatActivity() {
         if (it.resultCode == CAMERA_X_RESULT) {
             val myFile = it.data?.getSerializableExtra("picture") as File
             val isBackCamera = it.data?.getBooleanExtra("isBackCamera", true) as Boolean
-            val result = rotateBitmap(
-                BitmapFactory.decodeFile(myFile.path),
-                isBackCamera
-            )
+            val result = BitmapFactory.decodeFile(myFile.path)
 
             binding.previewImageView.setImageBitmap(result)
 //            outputGenerator(result)
@@ -100,7 +140,8 @@ class ScanResultActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun outputModel(bitmap: Bitmap) {
         val resizeBitmap: Bitmap = Bitmap.createScaledBitmap(bitmap, 128, 128, true)
-        val model = MedicineModel.newInstance(this)
+        val model = MedscanModel.newInstance(this)
+//        val model = MedicineModel.newInstance(this)
 
         val bytebuffer = ByteBuffer.allocateDirect(4*128*128*3)
         bytebuffer.order(ByteOrder.nativeOrder())
@@ -125,10 +166,15 @@ class ScanResultActivity : AppCompatActivity() {
         val maxInd = getMax(tab)
 
 //        binding.goToDetail.text = medList[maxInd]
-        Log.d("medList2", medList.toString())
+//        Log.d("medList2", medList[0] + medList[1])
         val df = DecimalFormat("#.##")
 
         binding.goToDetail.text = medList[maxInd] + " (" + df.format(tab[maxInd]*100) + "%)"
+
+        medResult = medList[maxInd]
+
+        searchByName(medResult)
+
         Log.d("presenstage", tab[maxInd].toString())
         model.close()
     }
@@ -162,38 +208,50 @@ class ScanResultActivity : AppCompatActivity() {
         return ind
     }
 
-    private fun outputGenerator(bitmap: Bitmap) {
-
-        val resize = Bitmap.createScaledBitmap(bitmap, 256, 256, true)
-//        val resize = Bitmap.createScaledBitmap(bitmap, 128, 128, true)
-        val model = MedicineModel.newInstance(this)
-
-        val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 128, 128, 3), DataType.FLOAT32)
-
-//      Creates inputs for reference.
-        val tfImage = TensorImage.fromBitmap(resize)
-        val byteBuffer = tfImage.buffer
-
-        Log.d("shape", byteBuffer.toString())
-        Log.d("shape2", inputFeature0.buffer.toString())
-
-        inputFeature0.loadBuffer(byteBuffer)
-
-//      Runs model inference and gets result.
-        val outputs = model.process(inputFeature0)
-
-        val outputFeature0 = outputs.outputFeature0AsTensorBuffer
-
-        val outputIndex = outputFeature0.floatArray.size - 1
-        Log.d("index", outputIndex.toString())
-        Log.d("array0", outputFeature0.floatArray[0].toString())
-        Log.d("array1", outputFeature0.floatArray[1].toString())
-        Log.d("array2", outputFeature0.floatArray[2].toString())
-        Log.d("array3", outputFeature0.floatArray[3].toString())
-        Log.d("array4", outputFeature0.floatArray[4].toString())
-        Log.d("array5", outputFeature0.floatArray[5].toString())
-
-        binding.goToDetail.text = outputFeature0.floatArray[outputIndex].toString()
-        model.close()
+    private fun showMedicineDetail(data: Medicine) {
+        val intentToDetail = Intent(this, MedDetailActivity::class.java)
+        intentToDetail.putExtra(MedDetailActivity.MED_NAME, data.name)
+        intentToDetail.putExtra(MedDetailActivity.MED_IMG, data.photo)
+        intentToDetail.putExtra(MedDetailActivity.MED_PURPOSE, data.purpose)
+        intentToDetail.putExtra(MedDetailActivity.MED_SE, data.side_effetcs)
+        intentToDetail.putExtra(MedDetailActivity.MED_CONTRA, data.contraindication)
+        intentToDetail.putExtra(MedDetailActivity.MED_DOSE, data.dosage)
+        intentToDetail.putExtra(MedDetailActivity.MED_ING, data.ingredients)
+        startActivity(intentToDetail)
     }
+
+    private fun searchByName(query: String) {
+        binding.goToDetail.setOnClickListener {
+            viewModel.getSearchMedicines(query).observe(this@ScanResultActivity, {
+                if (it != null) {
+                    when(it) {
+                        is Result.Loading -> {
+//                            showLoading(true)
+                        }
+                        is Result.Success -> {
+                            Log.d("testtttt", it.data.toString())
+                            Log.d("queryy", query)
+                            showMedicineDetail(it.data.first())
+//                            val intentToSearch = Intent(this, SearchResultActivity::class.java)
+//                            intentToSearch.putParcelableArrayListExtra("Medicines", it.data as ArrayList<Medicine>)
+//                            startActivity(intentToSearch)
+                            finish()
+                        }
+                        is Result.Error -> {
+                            Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+//    private fun showLoading(isLoading: Boolean) {
+//        if (isLoading) {
+//            binding.pbSearch.visibility = View.VISIBLE
+//        }
+//        else {
+//            binding.pbSearch.visibility = View.GONE
+//        }
+//    }
 }

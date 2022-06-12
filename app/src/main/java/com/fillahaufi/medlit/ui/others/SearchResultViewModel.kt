@@ -6,4 +6,6 @@ import com.fillahaufi.medlit.data.local.UserPreference
 
 class SearchResultViewModel(private val userRepository: UserRepository, private val pref: UserPreference?): ViewModel() {
 
+    fun getSearchMedicines(username: String) = userRepository.getSearchMedicine(username)
+
 }

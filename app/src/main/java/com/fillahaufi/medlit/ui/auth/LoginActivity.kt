@@ -34,8 +34,8 @@ class LoginActivity : AppCompatActivity() {
         showLoading(false)
 
         setupViewModel()
-        dummyLogIn()
-//        logIn()
+//        dummyLogIn()
+        logIn()
         goRegister()
     }
 

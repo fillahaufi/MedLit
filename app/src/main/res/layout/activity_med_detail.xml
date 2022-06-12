@@ -6,189 +6,237 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.ui.detail.MedDetailActivity">
 
-    <ImageView
-        android:id="@+id/detail_img"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:contentDescription="@string/detail_image"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
-
-    <!--    <ImageView-->
-    <!--        android:id="@+id/back"-->
-    <!--        android:layout_width="40dp"-->
-    <!--        android:layout_height="40dp"-->
-    <!--        android:layout_marginStart="8dp"-->
-    <!--        android:layout_marginTop="8dp"-->
-    <!--        android:src="@drawable/ic_baseline_arrow_back_24"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        android:contentDescription="@string/back" />-->
-
-    <TextView
-        android:id="@+id/med_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/med_name"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_img" />
-
-    <ImageView
-        android:id="@+id/underline"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-10dp"
-        android:src="@drawable/ic_rectangle_3"
-        app:layout_constraintEnd_toEndOf="@+id/med_name"
-        app:layout_constraintStart_toStartOf="@+id/med_name"
-        app:layout_constraintTop_toBottomOf="@+id/med_name" />
-
-    <TextView
-        android:id="@+id/used_for"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/custom_bg_usedfor"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp"
-        android:text="@string/used_for"
-        android:textColor="@color/green_1"
-        android:textStyle="bold"
+        android:paddingBottom="150dp"
+        android:clipToPadding="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/underline" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/used_for_value"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/custom_bg_usedfor_value"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="16dp"
-        android:text="@string/used_for_value"
-        app:layout_constraintEnd_toEndOf="@+id/used_for"
-        app:layout_constraintStart_toStartOf="@+id/used_for"
-        app:layout_constraintTop_toBottomOf="@+id/used_for" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/generic_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:text="Generic Name"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/used_for_value" />
+            <ImageView
+                android:id="@+id/detail_img"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:contentDescription="@string/detail_image"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
 
-    <TextView
-        android:id="@+id/generic_name_value"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/med_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="@+id/generic_name" />
+            <!--    <ImageView-->
+            <!--        android:id="@+id/back"-->
+            <!--        android:layout_width="40dp"-->
+            <!--        android:layout_height="40dp"-->
+            <!--        android:layout_marginStart="8dp"-->
+            <!--        android:layout_marginTop="8dp"-->
+            <!--        android:src="@drawable/ic_baseline_arrow_back_24"-->
+            <!--        app:layout_constraintStart_toStartOf="parent"-->
+            <!--        app:layout_constraintTop_toTopOf="parent"-->
+            <!--        android:contentDescription="@string/back" />-->
 
-    <TextView
-        android:id="@+id/purpose"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Purpose"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/generic_name"
-        app:layout_constraintTop_toBottomOf="@+id/generic_name_value" />
+            <TextView
+                android:id="@+id/med_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/med_name"
+                android:textSize="30sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detail_img" />
 
-    <TextView
-        android:id="@+id/purpose_value"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="Purpose value"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/generic_name_value"
-        app:layout_constraintTop_toTopOf="@+id/purpose" />
+            <ImageView
+                android:id="@+id/underline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-10dp"
+                android:src="@drawable/ic_rectangle_3"
+                app:layout_constraintEnd_toEndOf="@+id/med_name"
+                app:layout_constraintStart_toStartOf="@+id/med_name"
+                app:layout_constraintTop_toBottomOf="@+id/med_name" />
 
-    <TextView
-        android:id="@+id/side_effects"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Side Effects"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/purpose"
-        app:layout_constraintTop_toBottomOf="@+id/purpose_value" />
+            <TextView
+                android:id="@+id/used_for"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_bg_usedfor"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:text="@string/used_for"
+                android:textColor="@color/green_1"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/underline" />
 
-    <TextView
-        android:id="@+id/side_effects_value"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="side effects"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/purpose_value"
-        app:layout_constraintTop_toTopOf="@+id/side_effects" />
+            <TextView
+                android:id="@+id/used_for_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_bg_usedfor_value"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="16dp"
+                android:text="@string/used_for_value"
+                app:layout_constraintEnd_toEndOf="@+id/used_for"
+                app:layout_constraintStart_toStartOf="@+id/used_for"
+                app:layout_constraintTop_toBottomOf="@+id/used_for" />
 
-    <TextView
-        android:id="@+id/contraindication"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Contraindication"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/side_effects"
-        app:layout_constraintTop_toBottomOf="@+id/side_effects_value" />
+            <TextView
+                android:id="@+id/generic_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:text="Generic Name"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/used_for_value" />
 
-    <TextView
-        android:id="@+id/contraindication_value"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="contraindications"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/side_effects_value"
-        app:layout_constraintTop_toTopOf="@+id/contraindication" />
+            <TextView
+                android:id="@+id/generic_name_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/med_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="@+id/generic_name" />
 
-    <TextView
-        android:id="@+id/dosage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Dosages"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/contraindication"
-        app:layout_constraintTop_toBottomOf="@+id/contraindication_value" />
+            <TextView
+                android:id="@+id/purpose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="Purpose"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/generic_name"
+                app:layout_constraintTop_toBottomOf="@+id/generic_name_value" />
 
-    <TextView
-        android:id="@+id/dosage_value"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="dosages"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/contraindication_value"
-        app:layout_constraintTop_toTopOf="@+id/dosage" />
+            <TextView
+                android:id="@+id/purpose_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="Purpose value"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/generic_name_value"
+                app:layout_constraintTop_toTopOf="@+id/purpose" />
+
+            <TextView
+                android:id="@+id/side_effects"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="Side Effects"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/purpose"
+                app:layout_constraintTop_toBottomOf="@+id/purpose_value" />
+
+            <TextView
+                android:id="@+id/side_effects_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="side effects"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/purpose_value"
+                app:layout_constraintTop_toTopOf="@+id/side_effects" />
+
+            <TextView
+                android:id="@+id/contraindication"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="Contraindication"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/side_effects"
+                app:layout_constraintTop_toBottomOf="@+id/side_effects_value" />
+
+            <TextView
+                android:id="@+id/contraindication_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="contraindications"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/side_effects_value"
+                app:layout_constraintTop_toTopOf="@+id/contraindication" />
+
+            <TextView
+                android:id="@+id/dosage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="Dosages"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/contraindication"
+                app:layout_constraintTop_toBottomOf="@+id/contraindication_value" />
+
+            <TextView
+                android:id="@+id/dosage_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="dosages"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/contraindication_value"
+                app:layout_constraintTop_toTopOf="@+id/dosage" />
+
+            <TextView
+                android:id="@+id/ingredients"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="Ingredients"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="@+id/dosage"
+                app:layout_constraintTop_toBottomOf="@+id/dosage_value" />
+
+            <TextView
+                android:id="@+id/ingredients_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="value"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/dosage_value"
+                app:layout_constraintTop_toTopOf="@+id/ingredients" />
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="133dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/bookmark"
@@ -213,12 +261,5 @@
         android:scaleType="fitXY"
         android:src="@drawable/ic_rectangle_3"
         app:layout_constraintBottom_toBottomOf="parent" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="133dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

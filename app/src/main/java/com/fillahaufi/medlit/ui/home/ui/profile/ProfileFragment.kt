@@ -14,8 +14,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.fillahaufi.medlit.data.local.UserPreference
 import com.fillahaufi.medlit.databinding.FragmentProfileBinding
+import com.fillahaufi.medlit.ui.SplashActivity
 import com.fillahaufi.medlit.ui.ViewModelFactory
 import com.fillahaufi.medlit.ui.home.IHomeFragment
+import com.fillahaufi.medlit.ui.home.ui.home.HomeViewModel
 import com.fillahaufi.medlit.ui.welcome.WelcomeActivity
 
 class ProfileFragment : Fragment() {
@@ -45,10 +47,8 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        setupViewModel()
-//        viewModel =
-//            ViewModelProvider(this).get(ProfileViewModel::class.java)
 
+        setupViewModel()
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -65,6 +65,14 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    private fun setupViewModel() {
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(context!!, null)
+        val vM: ProfileViewModel by viewModels {
+            factory
+        }
+        viewModel = vM
+    }
+
 //    private fun setupViewModel() {
 //        val factory: ViewModelFactory = ViewModelFactory.getInstance(context!!, UserPreference.getInstance(dataStore))
 //        val vM: ProfileViewModel by viewModels {
@@ -75,7 +83,8 @@ class ProfileFragment : Fragment() {
 
     private fun logout() {
         binding.logout.setOnClickListener {
-            val intentToWelcome = Intent(activity, WelcomeActivity::class.java)
+            viewModel.logout()
+            val intentToWelcome = Intent(activity, SplashActivity::class.java)
             startActivity(intentToWelcome)
         }
     }

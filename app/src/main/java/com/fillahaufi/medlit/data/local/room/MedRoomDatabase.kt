@@ -8,7 +8,7 @@ import com.fillahaufi.medlit.data.local.Medicine
 
 @Database(entities = [
     Medicine::class
-], version = 1)
+], version = 4)
 
 abstract class MedRoomDatabase: RoomDatabase() {
     abstract fun medDao(): MedDao

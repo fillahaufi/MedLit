@@ -1,5 +1,6 @@
 package com.fillahaufi.medlit.data.remote.retrofit
 
+import com.fillahaufi.medlit.data.remote.response.AllMedicineResponse
 import com.fillahaufi.medlit.data.remote.response.LoginResponse
 import com.fillahaufi.medlit.data.remote.response.RegisterResponse
 import com.fillahaufi.medlit.data.remote.retrofit.body.LoginBodyInformation
@@ -21,12 +22,17 @@ interface ApiService {
     fun login(
         @Body loginBodyInformation: LoginBodyInformation
     ): Call<LoginResponse>
-//
-//    @GET("stories")
-//    fun getAllStories(
-//        @Header("Authorization") authHeader: String,
-//        @Query("location") location: Int,
-//    ): Call<AllStoryResponse>
+
+    @GET("medicine/get/all")
+    fun getAllStories(
+        @Header("Authorization") authHeader: String,
+    ): Call<AllMedicineResponse>
+
+    @GET("medicine/search?")
+    fun searchMedicine(
+        @Query("generic_name") name: String
+    ): Call<AllMedicineResponse>
+
 //
 //    @GET("stories")
 //    suspend fun getStories(

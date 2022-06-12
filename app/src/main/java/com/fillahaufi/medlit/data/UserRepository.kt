@@ -6,6 +6,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.fillahaufi.medlit.data.local.Medicine
 import com.fillahaufi.medlit.data.local.room.MedDao
+import com.fillahaufi.medlit.data.remote.response.AllMedicineResponse
 import com.fillahaufi.medlit.data.remote.response.LoginResponse
 import com.fillahaufi.medlit.data.remote.response.RegisterResponse
 import com.fillahaufi.medlit.data.remote.retrofit.ApiService
@@ -23,6 +24,8 @@ class UserRepository private constructor(
     private val appExecutors: AppExecutors
 ){
     private var userToken: String = "USER_TOKEN"
+    private var userName: String = "USER_NAME"
+    private var userEmail: String = "USER_EMAIL"
 
     private val signupResult = MediatorLiveData<Result<RegisterResponse>>()
     private val signupBodyInformation: SignupBodyInformation = SignupBodyInformation()
@@ -30,11 +33,22 @@ class UserRepository private constructor(
     private val loginResult = MediatorLiveData<Result<LoginResponse>>()
     private val loginBodyInformation: LoginBodyInformation = LoginBodyInformation()
 
-    fun SignUp(name: String, email: String, password: String): MediatorLiveData<Result<RegisterResponse>> {
+    private val allMedicine = MediatorLiveData<Result<List<Medicine>>>()
+
+    private val searchResult = MediatorLiveData<Result<List<Medicine>>>()
+
+    fun setUserToken(token: String, name: String, email: String) {
+        userToken = token
+        userName = name
+        userEmail = email
+    }
+
+    fun SignUp(name: String, email: String, password: String, rePassword: String): MediatorLiveData<Result<RegisterResponse>> {
         signupResult.value = Result.Loading
         signupBodyInformation.setName(name)
         signupBodyInformation.setEmail(email)
         signupBodyInformation.setPassword(password)
+        signupBodyInformation.setRePassword(rePassword)
         val client = apiService.signup(signupBodyInformation)
         val callbackResponse = MutableLiveData<RegisterResponse>()
         Log.d("signupBody", signupBodyInformation.toString())
@@ -103,6 +117,107 @@ class UserRepository private constructor(
             loginResult.value = Result.Success(it)
         }
         return loginResult
+    }
+
+    fun getAllMedicine(authHeader: String): LiveData<Result<List<Medicine>>> {
+        val client = apiService.getAllStories(authHeader)
+        val callbackResponse = MutableLiveData<ArrayList<Medicine>>()
+        client.enqueue(object: Callback<AllMedicineResponse> {
+            override fun onResponse(
+                call: Call<AllMedicineResponse>,
+                response: Response<AllMedicineResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    val medList = responseBody?.medicineList
+                    val arrMedList = ArrayList<Medicine>()
+                    appExecutors.diskIO.execute {
+                        medList?.forEach { medicine ->
+                            val medicines = Medicine(
+                                medicine?.id!!,
+                                medicine.genericName,
+                                medicine.photoUrl,
+                                medicine.purpose,
+                                medicine.sideEffects,
+                                medicine.contraindication,
+                                medicine.dosage,
+                                medicine.ingredients,
+                                medicine.createdAt,
+                                medicine.updatedAt,
+                                false
+                            )
+                            arrMedList.add(medicines)
+                        }
+                        callbackResponse.postValue(arrMedList)
+                    }
+                }
+                else {
+                    allMedicine.value = Result.Error(response.body()?.message.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<AllMedicineResponse>, t: Throwable) {
+                allMedicine.value = Result.Error(t.message.toString())
+            }
+
+        })
+
+        allMedicine.addSource(callbackResponse) {
+            allMedicine.value = Result.Success(it)
+        }
+
+        return allMedicine
+    }
+
+//    fun getSearchMedicine(query: String)
+
+    fun getSearchMedicine(query: String): LiveData<Result<List<Medicine>>> {
+        searchResult.value = Result.Loading
+        val client = apiService.searchMedicine(query)
+        val callbackResponse = MutableLiveData<ArrayList<Medicine>>()
+        Log.d("prosesss", client.toString())
+        client.enqueue(object: Callback<AllMedicineResponse> {
+            override fun onResponse(call: Call<AllMedicineResponse>, response: Response<AllMedicineResponse>) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+//                    Log.d("userss", medicines.toString())
+                    val medList = responseBody?.medicineList
+                    val arrMedList = ArrayList<Medicine>()
+                    appExecutors.diskIO.execute {
+                        medList?.forEach { medicine ->
+//                            val isBookmarked = userDao.isUsersBookmarked(user.login)
+                            val medicines = Medicine(
+                                medicine?.id!!,
+                                medicine.genericName,
+                                medicine.photoUrl,
+                                medicine.purpose,
+                                medicine.sideEffects,
+                                medicine.contraindication,
+                                medicine.dosage,
+                                medicine.ingredients,
+                                medicine.createdAt,
+                                medicine.updatedAt,
+                                false
+                            )
+                            arrMedList.add(medicines)
+                        }
+                        callbackResponse.postValue(arrMedList)
+                        Log.d("userList", medList.toString())
+//                        userDao.deleteAllUnbookmarked()
+//                        userDao.insert(medList)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<AllMedicineResponse>, t: Throwable) {
+                searchResult.value = Result.Error(t.message.toString())
+            }
+        })
+//        val localData = userDao.getSearchedUsers(query)
+//        Log.d("searchedUsersss", userDao.getSearchedUsers(query).value.toString())
+        searchResult.addSource(callbackResponse) { newData: List<Medicine> ->
+            searchResult.value = Result.Success(newData)
+        }
+        return searchResult
     }
 
     fun getBookmarkedUser(): LiveData<List<Medicine>> {

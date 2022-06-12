@@ -59,6 +59,7 @@ class RegisterActivity : AppCompatActivity() {
             val name = binding.nameEditText.text.toString()
             val email = binding.emailEditText.text.toString()
             val password = binding.passEditText.text.toString()
+            val rePassword = binding.rePassEditText.text.toString()
             when {
                 name.isEmpty() -> {
                     binding.name.error = "Masukkan nama"
@@ -69,9 +70,12 @@ class RegisterActivity : AppCompatActivity() {
                 password.isEmpty() -> {
                     binding.password.error = "Masukkan password"
                 }
+                rePassword.isEmpty() && rePassword != password -> {
+                    binding.password.error = "Password tidak cocok"
+                }
                 else -> {
 //                    viewModel.saveUser(User(name, email,password, false))
-                    viewModel.signUp(name, email, password).observe(this, {
+                    viewModel.signUp(name, email, password, rePassword).observe(this, {
                         if (it != null) {
                             when(it) {
                                 is Result.Loading -> {

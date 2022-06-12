@@ -8,7 +8,7 @@ import com.fillahaufi.medlit.data.UserRepository
 import com.fillahaufi.medlit.data.local.UserPreference
 import kotlinx.coroutines.launch
 
-class ProfileViewModel(private val userRepository: UserRepository, private val pref: UserPreference) : ViewModel() {
+class ProfileViewModel(private val userRepository: UserRepository, private val pref: UserPreference?) : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is notifications Fragment"
@@ -17,7 +17,7 @@ class ProfileViewModel(private val userRepository: UserRepository, private val p
 
     fun logout() {
         viewModelScope.launch {
-            pref.logout()
+            pref?.logout()
         }
     }
 }

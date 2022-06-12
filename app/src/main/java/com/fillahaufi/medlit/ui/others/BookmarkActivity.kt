@@ -27,7 +27,7 @@ class BookmarkActivity : AppCompatActivity() {
     private lateinit var viewModel: BookmarkViewModel
     private lateinit var rvBookmark: RecyclerView
     private lateinit var adapter: ListMedicineAdapter
-    private val listDummy = ArrayList<Medicine>()
+//    private val listDummy = ArrayList<Medicine>()
     private var data = ArrayList<Medicine>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +35,7 @@ class BookmarkActivity : AppCompatActivity() {
         binding = ActivityBookmarkBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        listDummy.addAll(listMedicines)
+//        listDummy.addAll(listMedicines)
 
         setupView()
         setupViewModel()
@@ -89,18 +89,18 @@ class BookmarkActivity : AppCompatActivity() {
         adapter.notifyDataSetChanged()
     }
 
-    private val listMedicines: ArrayList<Medicine>
-        get() {
-            val dataId = resources.getIntArray(R.array.data_id)
-            val dataName = resources.getStringArray(R.array.data_name)
-            val dataPhoto = resources.getStringArray(R.array.data_img)
-            val listMed = ArrayList<Medicine>()
-            for (i in dataName.indices) {
-                val med = Medicine(dataId[i], dataName[i], dataPhoto[i], false)
-                listMed.add(med)
-            }
-            return listMed
-        }
+//    private val listMedicines: ArrayList<Medicine>
+//        get() {
+//            val dataId = resources.getIntArray(R.array.data_id)
+//            val dataName = resources.getStringArray(R.array.data_name)
+//            val dataPhoto = resources.getStringArray(R.array.data_img)
+//            val listMed = ArrayList<Medicine>()
+//            for (i in dataName.indices) {
+//                val med = Medicine(dataId[i], dataName[i], dataPhoto[i], false)
+//                listMed.add(med)
+//            }
+//            return listMed
+//        }
 
     private fun showMedicineDetail(data: Medicine) {
         val intentToDetail = Intent(this, MedDetailActivity::class.java)

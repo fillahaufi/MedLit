@@ -1,16 +1,10 @@
 package com.fillahaufi.medlit.ui.home
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import android.view.Window
-import android.view.WindowManager
-import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -65,6 +59,9 @@ class HomeActivity : AppCompatActivity(), IHomeFragment {
     private fun startCameraX() {
         binding.fbScan.setOnClickListener {
             val intentToCameraX = Intent(this, ScanResultActivity::class.java)
+            intentToCameraX.putExtra(ScanResultActivity.USER_TOKEN, userToken)
+            intentToCameraX.putExtra(ScanResultActivity.USER_NAME, userName)
+            intentToCameraX.putExtra(ScanResultActivity.USER_EMAIL, userEmail)
             startActivity(intentToCameraX)
         }
     }

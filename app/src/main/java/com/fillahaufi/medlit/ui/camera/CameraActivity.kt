@@ -29,10 +29,18 @@ class CameraActivity : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
+    private lateinit var userToken: String
+    private lateinit var userName: String
+    private lateinit var userEmail: String
+
     companion object {
         const val CAMERA_X_RESULT = 200
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
+
+        const val USER_TOKEN = "USER_TOKEN"
+        const val USER_NAME = "USER_NAME"
+        const val USER_EMAIL = "USER_EMAIL"
     }
 
     override fun onRequestPermissionsResult(
@@ -62,14 +70,24 @@ class CameraActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupView()
+        getUserData()
         requestPermission()
         startCamera()
         binding.captureImage.setOnClickListener { takePhoto() }
     }
 
+    private fun getUserData() {
+        userToken = intent.getStringExtra(HomeActivity.USER_TOKEN).toString()
+        userName = intent.getStringExtra(HomeActivity.USER_NAME).toString()
+        userEmail = intent.getStringExtra(HomeActivity.USER_EMAIL).toString()
+    }
+
     override fun onBackPressed() {
         Log.d("CDA", "onBackPressed Called")
         val setIntent = Intent(this, HomeActivity::class.java)
+        setIntent.putExtra(HomeActivity.USER_TOKEN, userToken)
+        setIntent.putExtra(HomeActivity.USER_NAME, userName)
+        setIntent.putExtra(HomeActivity.USER_EMAIL, userEmail)
         startActivity(setIntent)
         finishAffinity()
     }
@@ -133,6 +151,7 @@ class CameraActivity : AppCompatActivity() {
         val imageCapture = imageCapture ?: return
         val photoFile = createFile(application)
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+        Toast.makeText(this, "Scanning image...", Toast.LENGTH_SHORT).show()
         imageCapture.takePicture(
             outputOptions,
             ContextCompat.getMainExecutor(this),
