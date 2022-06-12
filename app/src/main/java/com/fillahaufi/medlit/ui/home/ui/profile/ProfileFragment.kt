@@ -86,6 +86,7 @@ class ProfileFragment : Fragment() {
             viewModel.logout()
             val intentToWelcome = Intent(activity, SplashActivity::class.java)
             startActivity(intentToWelcome)
+            activity?.finishAffinity()
         }
     }
 

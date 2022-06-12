@@ -3,7 +3,7 @@
     <string name="logo_with_text">logo with text</string>
     <string name="footer_bar">footer bar</string>
     <string name="first_welcome"><font fgcolor="#8AAE92">MedLit</font> is an application that focuses on the field of public health</string>
-    <string name="first_welcome_2">here, we help people who want information about the drugs to be taken so that unwanted things don\'t happen</string>
+    <string name="first_welcome_2">Here, we help people who want information about the drugs to be taken so that unwanted things don\'t happen</string>
     <string name="first_welcome_3">How do we do that? Let\'s take a simple walk</string>
     <string name="homepage_view">homepage view</string>
     <string name="menu2_head">Search and Explore medicine</string>
